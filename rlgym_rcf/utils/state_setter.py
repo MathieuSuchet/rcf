@@ -19,9 +19,6 @@ class ReplayToState(StateSetter):
         _set_ball(state_wrapper, self.states[self.counter])
         _set_cars(state_wrapper, self.states[self.counter])
 
-        if self.counter == 43:
-            print("Stop")
-
         while np.any(np.isnan(state_wrapper.format_state())):
             # print("State containing NaNs, ignoring")
             self.counter += 1

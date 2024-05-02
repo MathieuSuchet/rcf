@@ -6,7 +6,7 @@ import tqdm
 from rlgym_sim.utils.state_setters import StateWrapper
 
 from rlgym_rcf.rcfs.rcf_abstract import AbstractRCF
-from state_setter import ReplayToState
+from rlgym_rcf.utils.state_setter import ReplayToState
 import multiprocessing as mp
 
 
