@@ -1,0 +1,7 @@
+{
+  "name": "rlgym_rcf",
+  "author": "CryyStall",
+  "description": "Replay Characteristics Finder",
+  "version": "0.0.1",
+  "package_dir": {"": "rlgym_rcf"}
+}
