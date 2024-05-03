@@ -2,8 +2,10 @@ import math
 import pickle
 
 import numpy as np
-from rlgym_sim.utils import StateSetter
-from rlgym_sim.utils.state_setters import StateWrapper
+from rlgym.utils import StateSetter
+from rlgym.utils.state_setters import StateWrapper
+
+from rlgym_rcf.utils.rcf_utils import _set_cars, _set_ball
 
 
 class ConverterToEnv(StateSetter):
@@ -11,6 +13,9 @@ class ConverterToEnv(StateSetter):
         self.replay_files = replay_files
         self.states = np.array([])
         self.probs = np.array([])
+
+    def _create_dummy_states(self):
+        return [pickle.dumps([0] * 93) * 2]
 
     def load(self):
         self.states = np.array([])
@@ -24,6 +29,14 @@ class ConverterToEnv(StateSetter):
         return np.ones((self.states.shape[0])) / self.states.shape[0]
 
     def reset(self, state_wrapper: StateWrapper):
+        if self.states.size == 0:
+            self.states = np.array(self._create_dummy_states())
         self.probs = self.generate_probabilities()
-        state = pickle.loads(np.random.choice(a=self.states, p=self.probs, size=1)[0])
-        print(np.array(state[19:22]) * (180 / math.pi))
+
+        state = np.array(pickle.loads(np.random.choice(a=self.states, p=self.probs, size=1)[0]))
+
+        _set_ball(state_wrapper, state)
+        _set_cars(state_wrapper, state)
+
+        print(state_wrapper.cars[0].position)
+        print(state_wrapper.cars[0].rotation)
