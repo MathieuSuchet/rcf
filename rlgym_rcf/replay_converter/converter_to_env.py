@@ -11,7 +11,7 @@ from rlgym_sim.utils.state_setters import StateWrapper as GymWrapper
 from rlgym_rcf.utils.rcf_utils import _set_cars, _set_ball
 
 
-class ConverterToEnvGym(StateSetter):
+class RCFSetterSim(StateSetter):
     def __init__(self, replay_files):
         self.replay_files = replay_files
         self.states = np.array([])
@@ -42,7 +42,7 @@ class ConverterToEnvGym(StateSetter):
         _set_cars(state_wrapper, state)
 
 
-class ConverterToEnvSim(GymSetter):
+class RCFSetterGym(GymSetter):
     def __init__(self, replay_files):
         self.replay_files = replay_files
         self.states = np.array([])

@@ -6,10 +6,10 @@ from rlgym.utils.obs_builders import AdvancedObs
 from rlgym.utils.reward_functions import DefaultReward
 from rlgym.utils.terminal_conditions.common_conditions import TimeoutCondition
 
-from rlgym_rcf.replay_converter.converter_to_env import ConverterToEnvGym
+from rlgym_rcf.replay_converter.converter_to_env import RCFSetterGym
 
 if __name__ == "__main__":
-    state_setter = ConverterToEnvGym(["replays/states_wall_to_air_dribble.npy"])
+    state_setter = RCFSetterGym(["replays/states_wall_to_air_dribble.npy"])
     env = rlgym.make(
         spawn_opponents=True,
         team_size=3,
