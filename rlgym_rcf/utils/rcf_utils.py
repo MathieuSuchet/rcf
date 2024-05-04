@@ -16,12 +16,20 @@ def _set_cars(state_wrapper: StateWrapper, data: np.ndarray):
     """
 
     data = np.split(data[9:], len(state_wrapper.cars))
-    for i, car in enumerate(state_wrapper.cars):
-        car.set_pos(*data[i][1:4])
-        car.set_lin_vel(*data[i][4:7])
-        car.set_ang_vel(*data[i][7:10])
-        car.set_rot(*data[i][10:13])
-        car.boost = data[i][13]
+    if len(data[0]) == 14:
+        for i, car in enumerate(state_wrapper.cars):
+            car.set_pos(*data[i][1:4])
+            car.set_lin_vel(*data[i][4:7])
+            car.set_ang_vel(*data[i][7:10])
+            car.set_rot(*data[i][10:13])
+            car.boost = data[i][13]
+    else:
+        for i, car in enumerate(state_wrapper.cars):
+            car.set_pos(*data[i][:3])
+            car.set_rot(*data[i][3:6])
+            car.set_lin_vel(*data[i][6:9])
+            car.set_ang_vel(*data[i][9:12])
+            car.boost = data[i][12]
 
 
 def _set_ball(state_wrapper: StateWrapper, data: np.ndarray):
@@ -34,6 +42,7 @@ def _set_ball(state_wrapper: StateWrapper, data: np.ndarray):
     state_wrapper.ball.set_pos(*data[:3])
     state_wrapper.ball.set_lin_vel(*data[3:6])
     state_wrapper.ball.set_ang_vel(*data[6:9])
+
 
 def _is_goal_scored(state: GameState):
     return GoalScoredCondition().is_terminal(state)
@@ -51,12 +60,12 @@ def _is_on_wall(car: PlayerData, wall_width_tolerance: float = 100., wall_height
             car.on_ground
             # Side wall comparison
             and (SIDE_WALL_X - wall_width_tolerance
-            < abs(car.car_data.position[0])
-            < SIDE_WALL_X + wall_width_tolerance
-            # Back wall comparison
-            or BACK_WALL_Y - wall_width_tolerance
-            < abs(car.car_data.position[1])
-            < BACK_WALL_Y + wall_width_tolerance)
+                 < abs(car.car_data.position[0])
+                 < SIDE_WALL_X + wall_width_tolerance
+                 # Back wall comparison
+                 or BACK_WALL_Y - wall_width_tolerance
+                 < abs(car.car_data.position[1])
+                 < BACK_WALL_Y + wall_width_tolerance)
             # Ceiling/Ground comparison
             and wall_height_tolerance
             < car.car_data.position[2]

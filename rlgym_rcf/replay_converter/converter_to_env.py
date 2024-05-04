@@ -41,7 +41,8 @@ class ConverterToEnvGym(StateSetter):
         _set_ball(state_wrapper, state)
         _set_cars(state_wrapper, state)
 
-class ConverterToEnvSym(GymSetter):
+
+class ConverterToEnvSim(GymSetter):
     def __init__(self, replay_files):
         self.replay_files = replay_files
         self.states = np.array([])
