@@ -26,7 +26,7 @@ class RCFSetterSim(StateSetter):
             if self.states.size == 0:
                 self.states = np.load(replay_file)
             else:
-                self.states = np.concatenate(self.states, np.load(replay_file))
+                self.states = np.concatenate((self.states, np.load(replay_file)), axis=0)
 
     def generate_probabilities(self):
         return np.ones((self.states.shape[0])) / self.states.shape[0]
@@ -57,7 +57,7 @@ class RCFSetterGym(GymSetter):
             if self.states.size == 0:
                 self.states = np.load(replay_file)
             else:
-                self.states = np.concatenate(self.states, np.load(replay_file))
+                self.states = np.concatenate((self.states, np.load(replay_file)), axis=0)
 
     def generate_probabilities(self):
         return np.ones((self.states.shape[0])) / self.states.shape[0]
